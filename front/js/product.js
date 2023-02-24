@@ -4,14 +4,15 @@ const itemImg = document.getElementsByClassName("item__img")[0]
 const title = document.getElementById("title")
 const price = document.getElementById("price")
 const description = document.getElementById("description")
-// const colors = document.getElementById("colors")[0]
-// const colors = document.querySelector('colors')
 
-// const colorsElement = document.createElement("option value")
 
-// const selectColorSelect = document.querySelector(".color-select")
-// sectionColorSelect.appendChild(colorsElement)
-// console.log("test",document.querySelector('#colors').value)
+
+let cart = localStorage.getItem("cart")
+if(cart == null){
+    cart = []
+    localStorage.setItem("cart", JSON.stringify(cart))
+}
+
 
 fetch("http://localhost:3000/api/products/" + productId)
 .then(function(response){
@@ -23,17 +24,50 @@ fetch("http://localhost:3000/api/products/" + productId)
         productImg.alt = product.altTxt
         itemImg.appendChild(productImg)
         title.innerHTML = product.name
+        console.log(title)
         price.innerHTML = product.price
         description.innerHTML = product.description
 
         const select = document.getElementById('colors')
+        console.log(select)
         product.colors.forEach(color => {
             const opt = document.createElement("option");
             opt.value = color;
             opt.text = color;
-            select.add(opt)
+            select.appendChild(opt)
         })
     })
     .catch(function(errorResponse){console.log(errorResponse)})
 })
 .catch(function(errorApi){console.log(errorApi)})
+
+const btnAddToCart = document.getElementById('addToCart')
+btnAddToCart.addEventListener("click", function(e){
+    const color = document.getElementById("colors").value
+    const quantity = document.getElementById("quantity").value
+    if(color === null || color ==="" || quantity === null || quantity === 0){
+        alert("Veuillez selectionner une valeur ou une quantitée")
+    }else{
+        const data = {
+            id : productId,
+            color : color,
+            quantity : parseInt(quantity)
+        }
+        let cart = JSON.parse(localStorage.getItem("cart"))
+        console.log(cart)
+        const itemFoundFromCart = cart.find(element => element.id === productId && element.color === color)
+        if(itemFoundFromCart !== undefined){
+            
+        }else{
+            if(parseInt(quantity) > 0 && parseInt(quantity) <= 100){
+                cart.push(data)
+                localStorage.setItem("cart", JSON.stringify(cart))
+                alert("Le produit à bien été ajouter au panier")
+            }else{
+                alert("veuillez choisir une quantitée comprise entre 0 et 100")
+            }
+        }
+    }
+    
+})
+
