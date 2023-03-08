@@ -77,13 +77,6 @@ btnAddToCart.addEventListener("click", function(e){
             }
 
 
-            // if(colors === ""){
-            //     cart.push(data)
-            //     localStorage.setItem("cart", JSON.stringify(cart)) 
-            //     alert("Le produit à bien été ajouter au panier")
-            //  }else{
-            //     // alert("Veuillez choisir une couleur")
-            //  }
  
         }
 

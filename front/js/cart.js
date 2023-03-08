@@ -5,6 +5,9 @@ let totalQuantities = 0
 let totalPrices = 0
 
 
+
+
+
 for (const cartItem of cart) {
     console.log(cartItem)
     fetch("http://localhost:3000/api/products/" + cartItem.id)
@@ -13,13 +16,13 @@ for (const cartItem of cart) {
         .then(function(product){
             cartItems.innerHTML += `<article class="cart__item" data-id="${product._id}" data-color="${cartItem.color}">
             <div class="cart__item__img">
-              <img src="${product.imageUrl}" alt="Photographie d'un canapé">
+              <img src="${product.imageUrl}" alt="${product.altTxt}">
             </div>
             <div class="cart__item__content">
               <div class="cart__item__content__description">
-                <h2>Nom du produit</h2>
-                <p>Vert</p>
-                <p>42,00 €</p>
+                <h2>${product.name}</h2>
+                <p>${cartItem.color}</p>
+                <p>${product.price}€</p>
               </div>
               <div class="cart__item__content__settings">
                 <div class="cart__item__content__settings__quantity">
@@ -35,18 +38,70 @@ for (const cartItem of cart) {
 
             // ajout des quantitées et boutton supprimer
             const deleteButtons = document.getElementsByClassName("deleteItem")
-            Object.values(deleteButtons).forEach(deleteButton => {
-                let article = deleteButton.closest("article")
-                const productId = article.getAttribute("data-id")
-                const productColor = article.getAttribute("data-color")
-                deleteButton.addEventListener("clic", function(event){
-                    // splice
+            for(var i = 0; i < deleteButtons.length; i++) {
+              (function(index) {
+                deleteButtons[index].addEventListener("click", function() {
+                   cart.splice(index, 1)
+                   localStorage.setItem("cart", JSON.stringify(cart))
+                   const e = document.querySelector(`[data-id="${product._id}"]`)
+                   e.remove();
+                  })
+              })(i);
+            }
 
+
+            // Object.values(deleteButtons).forEach( (deleteButton, index) => {
+                // let article = deleteButton.closest("article")
+                // console.log("deleteButtons", deleteButton)
+                // const productId = article.getAttribute("data-id")
+                // const productColor = article.getAttribute("data-color")
+            //     deleteButton.addEventListener("clic", function(event){
+            //       deleteButtons[index].onClick = function(){alert("Finaly!");};
+            //         // splice
+            //       console.log("deleteButtons", article)
+
+            //       // const deleteButton = article.splice(quantity)
 
 
                     
-                })
-            })
+            //     })
+
+
+            
+
+
+
+
+            // })
+
+           
+
+            // const totalPrice = async () => {
+            //   let lastProductId
+            //   let fetchProductJson
+            //   let productPrice = 0
+            //   for (let product of cart) {
+            //     if (product.id !== lastProductId){
+            //       productId = product.id
+            //       fetchProductJson = await fetchProduct(product.id)
+            //     }
+            //     productPrice += product.quantity * fetchProductJson.price
+            //   }
+            //   document.getElementById('totalPrice').textContent = productPrice
+            // }
+
+
+
+            // function totalQuantity () {
+            //   let number = 0;
+            //   for(let total of kanap) {
+            //     number += total.quantity;
+            //   }
+            //   return number
+            // }
+
+
+
 
         })
         .catch(function(errorResponse){console.log(errorResponse)})
