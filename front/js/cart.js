@@ -95,6 +95,10 @@ for (const cartItem of cart) {
 
 // gestion formulaire de commande
 const form = document.getElementsByClassName("cart__order__form")[0]
+// const firstNameError = document.getElementById("firstNameErrorMsg")
+
+
+
 form.addEventListener("submit", function(event){
   // console.log(form.elements)
   event.preventDefault()
@@ -107,18 +111,117 @@ form.addEventListener("submit", function(event){
       break
     }
     if(input.type === "text"){
-      regexForField = ""
+      if(input.name === "address"){
+        regexForField = /^[A-Z a-z 0-9 /s]+/g
+      }else{
+        regexForField = /^([a-zA-Zéèà]+[,.]?[ ]?|[a-zA-Zéèà]+['-]?)+$/
+      }
     }
     if(input.type === "email"){
-      regexForField = ((/^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/).test(email.value) === false || email.value === "")
-      click.preventDefault()
-        msgError('emailErrorMsg');
-        return
+      regexForField = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/
     }
+
+
+
+
+
+    // let firstNameInput = document.getElementById("firstName")
+    // let firstName = firstNameInput.value
+
+    // const testFirstName = new RegExp(/^[A-Za-z[\s]'\-.,]{2.31}$/i)
+    // if(testFirstName.test(firstName.value)){
+    //   // if(input.type === "firstName"){ 
+    //   // regexForField = new RegExp(/^[A-Za-z[\s]'\-.,]{2.31}$/i)
+    //   console.log("firstName ok")
+    //   return true
+    // }else{
+    //   firsNameError.innerHTML = "Erreur dans votre prénom, veuillez saisir 2 lettres minimum"
+    //   // input.style.border = "red 1px solid"
+    // }
+
+
+    // let lastNameInput = document.getElementById("lastName")
+    // let lastName = lastNameInput.value
+
+    // const testlastName = new RegExp(/^[A-Za-z[\s]'\-.,]{2.31}$/i)
+    // if(testlastName.test(lastName.value)){
+    //   console.log("lastName")
+    //   return true
+    // }else{
+    //   const lastNameError = document.getElementById("lastNameErrorMsg")
+    //   lastNameError.innerHTML = "Erreur dans votre nom, veuillez saisir 2 lettres minimum"
+    // }
+
+
+
+    // let addressInput = document.getElementById("#address")
+    // let address = addressInput.value
+
+    // const testAddress = new RegExp(/^[A-Za-z[\s]'\-.,]{2.31}$/i)
+    // if(testAddress.test(address.value)){
+    //   console.log("address")
+    //   return true
+    // }else{
+    //   const addressError = document.getElementById("#addressErrorMsg")
+    //   addressError.innerHTML = "Erreur, veuillez entrer une addresse valide"
+    // }
+
+
+
+
+
+
+
+    // firstNameErrorMsg
 
     if(input.value === ""){
       input.style.border = "red 1px solid"
       input.nextElementSibling.innerHTML = "Ce champ ne doit pas etre vide"
+    }else if(input.value.length < 3 ){
+      input.style.border = "red 1px solid"
+      input.nextElementSibling.innerHTML = "Ce champ doit comporter plus de 3 caractere"
+    }else if(input.value.match(regexForField) === null){
+      input.style.border = "red 1px solid"
+      input.nextElementSibling.innerHTML = "Ce champ n'est pas valide"
+    }else{
+      input.style.border = "green 1px solid"
+      input.nextElementSibling.innerHTML = ""
+      validForm++
+    }
+
+    if(validForm === 5 && cart !== null){
+      console.log("envoie de la commande")
+      const contact ={
+        firstName: document.getElementById("firstName").value,
+        lastName: document.getElementById("lastName").value,
+        firstName: document.getElementById("firstName").value,
+
+      }
+      const products = []
+      for(let [id] of Object.entries(cart)){
+        console.log(id)
+        products.push([id])
+      }
+
+      fetch("http://localhost:3000/api/products/order", {
+        method:"POST", 
+        headers:{"Content-type":"application/json; charset=UTF-8"},
+        body:JSON.stringify({contact,products})
+      })
+      .then(function(response){
+          response.json()
+          .then(function(order){
+              console.log(order)
+              location.replace(`confirmation.html?id=${order.orderId}`)
+          })
+          .catch(function(errorResponse){console.log(errorResponse)})
+      })
+      .catch(function(errorApi){console.log(errorApi)})
+      
+
+
+
+
     }
 
 
