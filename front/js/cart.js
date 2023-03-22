@@ -138,11 +138,11 @@ form.addEventListener("submit", function(event){
         email: document.getElementById("email").value,
       }
       const products = []
-      for(let [id] of Object.entries(cart)){
-        console.log(id)
-        products.push([id])
+      for(let item of Object.entries(cart)){
+        console.log(item)
+        products.push(item[1].id)
       }
-
+      // console.log(products)
 
       fetch("http://localhost:3000/api/products/order", {
         method:"POST", 
