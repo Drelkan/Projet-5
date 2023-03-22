@@ -7,9 +7,6 @@ let totalPrices = 0
 const totalPriceElement = document.getElementById("totalPrice")
 
 
-
-
-
 for (const cartItem of cart) {
     console.log(cartItem)
     fetch("http://localhost:3000/api/products/" + cartItem.id)
@@ -73,30 +70,23 @@ for (const cartItem of cart) {
                 }else{
                   alert("Vueillez mettre une quantiter comprise entre 1 et 100")
                 }
-
-                
               })
-
           })
-
           totalQuantities += parseInt(cartItem.quantity)
           totalQuantitiesELement.innerHTML = totalQuantities
 
           totalPrices += parseInt(product.price)*parseInt(cartItem.quantity)
           totalPriceElement.innerHTML = totalPrices
-
-
-
         })
         .catch(function(errorResponse){console.log(errorResponse)})
     })
     .catch(function(errorApi){console.log(errorApi)})
 }
 
+
 // gestion formulaire de commande
 const form = document.getElementsByClassName("cart__order__form")[0]
 // const firstNameError = document.getElementById("firstNameErrorMsg")
-
 
 
 form.addEventListener("submit", function(event){
@@ -122,58 +112,6 @@ form.addEventListener("submit", function(event){
     }
 
 
-
-
-
-    // let firstNameInput = document.getElementById("firstName")
-    // let firstName = firstNameInput.value
-
-    // const testFirstName = new RegExp(/^[A-Za-z[\s]'\-.,]{2.31}$/i)
-    // if(testFirstName.test(firstName.value)){
-    //   // if(input.type === "firstName"){ 
-    //   // regexForField = new RegExp(/^[A-Za-z[\s]'\-.,]{2.31}$/i)
-    //   console.log("firstName ok")
-    //   return true
-    // }else{
-    //   firsNameError.innerHTML = "Erreur dans votre prénom, veuillez saisir 2 lettres minimum"
-    //   // input.style.border = "red 1px solid"
-    // }
-
-
-    // let lastNameInput = document.getElementById("lastName")
-    // let lastName = lastNameInput.value
-
-    // const testlastName = new RegExp(/^[A-Za-z[\s]'\-.,]{2.31}$/i)
-    // if(testlastName.test(lastName.value)){
-    //   console.log("lastName")
-    //   return true
-    // }else{
-    //   const lastNameError = document.getElementById("lastNameErrorMsg")
-    //   lastNameError.innerHTML = "Erreur dans votre nom, veuillez saisir 2 lettres minimum"
-    // }
-
-
-
-    // let addressInput = document.getElementById("#address")
-    // let address = addressInput.value
-
-    // const testAddress = new RegExp(/^[A-Za-z[\s]'\-.,]{2.31}$/i)
-    // if(testAddress.test(address.value)){
-    //   console.log("address")
-    //   return true
-    // }else{
-    //   const addressError = document.getElementById("#addressErrorMsg")
-    //   addressError.innerHTML = "Erreur, veuillez entrer une addresse valide"
-    // }
-
-
-
-
-
-
-
-    // firstNameErrorMsg
-
     if(input.value === ""){
       input.style.border = "red 1px solid"
       input.nextElementSibling.innerHTML = "Ce champ ne doit pas etre vide"
@@ -189,19 +127,22 @@ form.addEventListener("submit", function(event){
       validForm++
     }
 
+
     if(validForm === 5 && cart !== null){
       console.log("envoie de la commande")
       const contact ={
         firstName: document.getElementById("firstName").value,
         lastName: document.getElementById("lastName").value,
-        firstName: document.getElementById("firstName").value,
-
+        address: document.getElementById("address").value,
+        city: document.getElementById("city").value,
+        email: document.getElementById("email").value,
       }
       const products = []
       for(let [id] of Object.entries(cart)){
         console.log(id)
         products.push([id])
       }
+
 
       fetch("http://localhost:3000/api/products/order", {
         method:"POST", 
@@ -215,19 +156,11 @@ form.addEventListener("submit", function(event){
               location.replace(`confirmation.html?id=${order.orderId}`)
           })
           .catch(function(errorResponse){console.log(errorResponse)})
+          // alert("")
       })
       .catch(function(errorApi){console.log(errorApi)})
-      
-
-
-
-
     }
-
-
   }
-
-
 })
 
 
