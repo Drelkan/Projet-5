@@ -6,7 +6,6 @@ const price = document.getElementById("price")
 const description = document.getElementById("description")
 
 
-
 let cart = localStorage.getItem("cart")
 if(cart == null){
     cart = []
@@ -40,6 +39,7 @@ fetch("http://localhost:3000/api/products/" + productId)
     .catch(function(errorResponse){console.log(errorResponse)})
 })
 .catch(function(errorApi){console.log(errorApi)})
+
 
 const btnAddToCart = document.getElementById('addToCart')
 btnAddToCart.addEventListener("click", function(e){
@@ -75,16 +75,6 @@ btnAddToCart.addEventListener("click", function(e){
             }else{
                 alert("veuillez choisir une quantitée comprise entre 0 et 100")
             }
-
-
- 
         }
-
-
-
-
-
     }
-    
 })
-
