@@ -4,6 +4,6 @@
   },
   "scripts": {
     "dev": "http-server",
-    "lint": "eslint *.js"
+    "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx ."
    }
 }
