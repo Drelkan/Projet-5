@@ -15,25 +15,25 @@ if(cart !== null){
 				response.json()
 					.then(function(product){
 						cartItems.innerHTML += `<article class="cart__item" data-id="${product._id}" data-color="${cartItem.color}">
-              <div class="cart__item__img">
+            <div class="cart__item__img">
                 <img src="${product.imageUrl}" alt="${product.altTxt}">
-              </div>
-              <div class="cart__item__content">
+            </div>
+            <div class="cart__item__content">
                 <div class="cart__item__content__description">
-                  <h2>${product.name}</h2>
-                  <p>${cartItem.color}</p>
-                  <p>${product.price}€</p>
+                <h2>${product.name}</h2>
+                <p>${cartItem.color}</p>
+                <p>${product.price}€</p>
                 </div>
                 <div class="cart__item__content__settings">
-                  <div class="cart__item__content__settings__quantity">
+                <div class="cart__item__content__settings__quantity">
                     <p>Qté : </p>
                     <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${cartItem.quantity}">
-                  </div>
-                  <div class="cart__item__content__settings__delete">
-                    <p class="deleteItem">Supprimer</p>
-                  </div>
                 </div>
-              </div>
+                <div class="cart__item__content__settings__delete">
+                    <p class="deleteItem">Supprimer</p>
+                </div>
+                </div>
+            </div>
             </article>`;
 
 						// ajout des quantitées et boutton supprimer
