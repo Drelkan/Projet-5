@@ -39,7 +39,7 @@ fetch("http://localhost:3000/api/products/" + productId)
 
 
 const btnAddToCart = document.getElementById("addToCart");
-btnAddToCart.addEventListener("click", function(e){
+btnAddToCart.addEventListener("click", function(){
 	const color = document.getElementById("colors").value;
 	const quantity = document.getElementById("quantity").value;
 	if(color === null || color ==="" || quantity === null || quantity === 0){
@@ -61,7 +61,6 @@ btnAddToCart.addEventListener("click", function(e){
 			}else{
 				alert("Vous je pouvez pas selectionner pour un produit une quantité supérieur a 100");
 			}
-
 		}else{
 			if(parseInt(quantity) > 0 && parseInt(quantity) <= 100){
 				cart.push(data);

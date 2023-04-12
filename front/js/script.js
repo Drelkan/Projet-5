@@ -3,7 +3,6 @@ fetch("http://localhost:3000/api/products")
 	.then(function(response){
 		response.json()
 			.then(function(products){
-				console.log(products);
 				for(let product of products){
 					items.innerHTML += `<a href="./product.html?id=${product._id}">
             <article>

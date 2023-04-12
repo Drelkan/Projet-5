@@ -6,7 +6,7 @@ let totalQuantities = 0;
 const totalQuantitiesELement = document.getElementById("totalQuantity");
 let totalPrices = 0;
 const totalPriceElement = document.getElementById("totalPrice");
-// 
+
 
 if(cart !== null){
 	for (const cartItem of cart) {
@@ -38,11 +38,11 @@ if(cart !== null){
 
 						// ajout des quantitées et boutton supprimer
 						const deleteButtons = document.getElementsByClassName("deleteItem");
-						Object.values(deleteButtons).forEach( (deleteButton, index) => {
+						Object.values(deleteButtons).forEach( (deleteButton) => {
 							let article = deleteButton.closest("article");
 							const productId = article.getAttribute("data-id");
 							const productColor = article.getAttribute("data-color");
-							deleteButton.addEventListener("click", function(event){
+							deleteButton.addEventListener("click", function(){
 								let indexProductForRemove = cart.findIndex((object => object.id === productId && object.color === productColor));
 								cart.splice(indexProductForRemove, 1);
 								localStorage.setItem("cart", JSON.stringify(cart));
@@ -52,11 +52,11 @@ if(cart !== null){
 						});
 
 						const quantityImputs = document.getElementsByClassName("itemQuantity");
-						Object.values(quantityImputs).forEach( (quantityImput, index) => {
+						Object.values(quantityImputs).forEach( (quantityImput) => {
 							let article = quantityImput.closest("article");
 							const productId = article.getAttribute("data-id");
 							const productColor = article.getAttribute("data-color");
-							quantityImput.addEventListener("change", function(event){
+							quantityImput.addEventListener("change", function(){
 								let currentQuantity = quantityImput.value;
 								let indexProductForChangeQuantity = cart.findIndex((object => object.id === productId && object.color === productColor));
 								if(currentQuantity > 0 && currentQuantity <= 100){
